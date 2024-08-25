@@ -9,11 +9,15 @@
 
     <ImageButton
         android:id="@+id/google_sign_in_button"
-        android:layout_width="78dp"
+        android:layout_width="217dp"
         android:layout_height="77dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.608"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+        app:layout_constraintVertical_bias="0.752"
+        app:srcCompat="@drawable/continuewithgoogle"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
