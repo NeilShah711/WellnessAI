@@ -38,10 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
     int RC_SIGN_IN = 20;
 
-
-
-
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        gso= new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail().build();
-        gsc= GoogleSignIn.getClient(MainActivity.this,gso);
+        gsc = GoogleSignIn.getClient(MainActivity.this, gso);
 
         google_sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,26 +65,26 @@ public class MainActivity extends AppCompatActivity {
                 SignIn();
             }
         });
-
-
-
     }
 
     private void SignIn() {
-        Intent signInIntent = gsc.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        gsc.signOut().addOnCompleteListener(this, task -> {
+            // Sign-out is complete; proceed to sign-in
+            Intent signInIntent = gsc.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        });
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task= GoogleSignIn.getSignedInAccountFromIntent(data);
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
 
-            try{
-                GoogleSignInAccount account= task.getResult(ApiException.class);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuth(account.getIdToken());
-            }
-            catch (ApiException e){
+            } catch (ApiException e) {
                 Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
@@ -97,9 +93,9 @@ public class MainActivity extends AppCompatActivity {
     private void firebaseAuth(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                FirebaseUser user= firebaseAuth.getCurrentUser();
-                HashMap<String, Object> map= new HashMap<>();
+            if (task.isSuccessful()) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                HashMap<String, Object> map = new HashMap<>();
                 map.put("id", user.getUid());
                 map.put("name", user.getDisplayName());
                 map.put("email", user.getEmail());
@@ -108,8 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Sign In Successful", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, HomeActivity.class));
                 finish();
-            }
-            else{
+            } else {
                 Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show();
             }
         });
