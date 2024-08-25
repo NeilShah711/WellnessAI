@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1076765205630",
+    "project_id": "wellnessai-740dc",
+    "storage_bucket": "wellnessai-740dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1076765205630:android:187591b1fa39d30854642f",
+        "android_client_info": {
+          "package_name": "com.example.wellnessai"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1LpiTuj293fn3I26ygwojYvzoi5sicR8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
